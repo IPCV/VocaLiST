@@ -240,7 +240,7 @@
 <div class="row">
     <div class="border">
         <div class="col">
-            <h5>Target Voice: Lead voice (center)</h5>
+            <h5>Target Voice: Lead voice</h5>
         </div>
         <div style="display: flex">
             <div class="column" style="padding-left:0.9em;display: flex">
@@ -280,77 +280,14 @@
         </div>
     </div>
 </div>
-<br></br>
-
-<div class="row" style="padding-bottom: 1em">
-    <div class="column" style="padding-left: 1em; padding-right: 1em">
-        <h4>Paranoid Android</h4>
-    </div>
-    <div class="column" style="padding-left: 1em">
-        <div class="videoplay"  videoid="#pa">
-            <button type="button" class="btn btn-outline-primary">Play</button>
-        </div>
-    </div>
-    <div class="column">
-        <div class="col-sm-3 videostop"  videoid="#pa">
-            <button type="button" class="btn btn-outline-primary">Stop</button>
-        </div>
-    </div>
-</div>
-<iframe id="pa" class="pa_video"
-        width="100%" height="345"
-        src="https://www.youtube.com/embed/Gayh_GrCKgU?start=313&end=317&showinfo=0&controls=0&enablejsapi=1&disablekb=1"
-        title="Paranoid Android" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen></iframe>
-</br>
-
-<div class="row">
-    <div class="border">
-        <div class="col">
-            <h5>Target Voice: Bottom-center Face</h5>
-        </div>
-        <div style="display: flex">
-            <div class="column" style="padding-left:0.9em;display: flex">
-                <div style="padding-top: 0.5em;display: flex">
-                    <div class="col-xs-1 excol3">
-                        <div class="src4_model">Mixture</div>
-                        <img class="spec"
-                             src="../estimated_demo/Gayh_GrCKgU_5_11_to_5_35/mix_center.png">
-                        <div class="col-xs-1 excol3">
-                            <audio class="src4audio"
-                                   src="../estimated_demo/Gayh_GrCKgU_5_11_to_5_35/mix_center.mp3"
-                                   controls=""></audio>
-                        </div>
-                    </div>
-                    <div class="col-xs-1 excol3">
-                        <div class="src4_model">Y-Net-mr [1]</div>
-                        <img class="spec"
-                             src="../estimated_demo/Gayh_GrCKgU_5_11_to_5_35/y-net-mr7_center.png">
-                        <div class="col-xs-1 excol3">
-                            <audio class="src4audio"
-                                   src="../estimated_demo/Gayh_GrCKgU_5_11_to_5_35/y-net-mr7_center.mp3"
-                                   controls=""></audio>
-                        </div>
-                    </div>
-                    <div class="col-xs-1 excol3">
-                        <div style="padding-left: 50px">Y-net-mr-V (Ours)</div>
-                        <img class="spec"
-                             src="../estimated_demo/Gayh_GrCKgU_5_11_to_5_35/vocalist.png">
-                        <div class="col-xs-1 excol3">
-                            <audio class="src4audio"
-                                   src="../estimated_demo/Gayh_GrCKgU_5_11_to_5_35/vocalist.mp3"
-                                   controls=""></audio>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+<br>
+<p class="lead mb-0" align="justify">
+    <h6>Observation:</h6>
+    Note that the Y-Net-mr estimate in the above example contains leakage of background vocals around the last second of audio,
+    while our estimate doesn't have this leakage.
+</p>
 <p></p>
-</br></br>
+<br></br>
 
 <div class="row" style="padding-bottom: 1em">
     <div class="column" style="padding-left: 1em; padding-right: 1em">
@@ -418,6 +355,13 @@
     </div>
 </div>
 
+<br><p class="lead mb-0" align="justify">
+    <h6>Observation:</h6>
+    Note that the sound clarity of the voice in our estimate (especially in the beginning) is clearly
+    better than the Y-Net-mr estimate in the above example. Also, our model better suppresses the
+    interferences of backing vocals around the interval between 1s to 2s.
+</p>
+<p></p>
 <br></br>
 
 <div class="row">
