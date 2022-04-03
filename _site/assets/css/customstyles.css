@@ -96,6 +96,22 @@ header.masthead .overlay {
     padding-bottom: 1em
 }
 
+.overlay{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+}
+.ctr{
+    position: absolute;
+}
+
+.ytp-large-play-button.ytp-button:hover {
+  background: darkorange;
+}
+
+
 @media (max-width: 600px) {
     .border{
         border: solid;
@@ -118,3 +134,4 @@ header.masthead .overlay {
         margin-bottom: -3em;
     }
 }
+
