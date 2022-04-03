@@ -22,7 +22,83 @@ layout: page
     Note that none of these singers were a part of the training set.
 </p>
 </br>
+<br></br>
+<div class="row" style="padding-bottom: 1em">
+    <div class="column" style="padding-left: 1em; padding-right: 1em">
+        <h4>Love is my Life (Queen)</h4>
+    </div>
+    <div class="column" style="padding-left: 1em">
+        <div class="videoplay" videoid="#q4">
+            <button type="button" class="btn btn-outline-primary">Play</button>
+        </div>
+    </div>
+    <div class="column">
+        <div class="col-sm-3 videostop" videoid="#q4">
+            <button type="button" class="btn btn-outline-primary">Stop</button>
+        </div>
+    </div>
+</div>
+<iframe id="q4" class="q4_video"
+        width="100%" height="345"
+        src="https://www.youtube.com/embed/sEnTMgzw8ow?start=164&end=170&showinfo=0&controls=0&enablejsapi=1&disablekb=1"
+        title="Queen Medley 4" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+</br>
+<div class="row">
+    <div class="border">
+        <div class="col">
+            <h5>Target Voice: Lead Singer (top-right)</h5>
+        </div>
+        <div style="display: flex">
+            <div class="column" style="padding-left:0.9em;display: flex">
+                <div style="padding-top: 0.5em;display: flex">
+                    <div class="col-xs-1 excol3">
+                        <div class="src4_model">Mixture</div>
+                        <img class="spec"
+                             src="../estimated_demo/sEnTMgzw8ow_2_38_to_2_53/mix_mod.png">
+                        <div class="col-xs-1 excol3">
+                            <audio class="src4audio"
+                                   src="../estimated_demo/sEnTMgzw8ow_2_38_to_2_53/mix_mod.mp3"
+                                   controls=""></audio>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 excol3">
+                        <div style="padding-left: 80px">Y-Net-mr [1]</div>
+                        <img class="spec"
+                             src="../estimated_demo/sEnTMgzw8ow_2_38_to_2_53/y-net-mr7_mod.png">
+                        <div class="col-xs-1 excol3">
+                            <audio class="src4audio"
+                                   src="../estimated_demo/sEnTMgzw8ow_2_38_to_2_53/y-net-mr7_mod.mp3"
+                                   controls=""></audio>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 excol3">
+                        <div style="padding-left: 80px">Y-Net-mr-V (Ours)</div>
+                        <img class="spec"
+                             src="../estimated_demo/sEnTMgzw8ow_2_38_to_2_53/vocalist_mod.png">
+                        <div class="col-xs-1 excol3">
+                            <audio class="src4audio"
+                                   src="../estimated_demo/sEnTMgzw8ow_2_38_to_2_53/vocalist_mod.mp3"
+                                   controls=""></audio>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<p class="lead mb-0" align="justify">
+    <h6>Observation:</h6>
+    In the last 3 seconds where it goes "... and now you leave ...",
+    there are leakages of other voices in the estimate of Y-Net-mr to a point that
+    the lyrics are not very intelligible in this estimate. Our model isolates the
+    target voice better than Y-Net-mr and also improves the intelligibility of the lyrics.
+</p>
+<p></p>
 
+<br></br>
 <div class="row" style="padding-bottom: 1em">
     <div class="column" style="padding-left: 1em; padding-right: 1em">
         <h4>Aretha Franklin - Respect</h4>
@@ -93,6 +169,80 @@ layout: page
     <h6>Observation:</h6>
     Note that the Y-Net-mr estimate in the above example contains leakage of background vocals around the last second of audio,
     while our estimate doesn't have this leakage.
+</p>
+<p></p>
+</br></br>
+
+<div class="row" style="padding-bottom: 1em">
+    <div class="column" style="padding-left: 1em; padding-right: 1em">
+        <h4>The Show Must Go On (Queen)</h4>
+    </div>
+    <div class="column" style="padding-left: 1em">
+        <div class="videoplay" videoid="#q2">
+            <button type="button" class="btn btn-outline-primary">Play</button>
+        </div>
+    </div>
+    <div class="column">
+        <div class="col-sm-3 videostop" videoid="#q2">
+            <button type="button" class="btn btn-outline-primary">Stop</button>
+        </div>
+    </div>
+</div>
+<iframe id="q2" class="q2_video"
+        width="100%" height="345"
+        src="https://www.youtube.com/embed/sEnTMgzw8ow?start=96&end=100&showinfo=0&controls=0&enablejsapi=1&disablekb=1"
+        title="Queen Medley 2" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+</br>
+<div class="row">
+    <div class="border">
+        <div class="col">
+            <h5>Target Voice: Lead Singer (center)</h5>
+        </div>
+        <div style="display: flex">
+            <div class="column" style="padding-left:0.9em;display: flex">
+                <div style="padding-top: 0.5em;display: flex">
+                    <div class="col-xs-1 excol3">
+                        <div class="src4_model">Mixture</div>
+                        <img class="spec"
+                             src="../estimated_demo/sEnTMgzw8ow_1_29_to_1_47/mix_mod.png">
+                        <div class="col-xs-1 excol3">
+                            <audio class="src4audio"
+                                   src="../estimated_demo/sEnTMgzw8ow_1_29_to_1_47/mix_mod.mp3"
+                                   controls=""></audio>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 excol3">
+                        <div style="padding-left: 80px">Y-Net-mr [1]</div>
+                        <img class="spec"
+                             src="../estimated_demo/sEnTMgzw8ow_1_29_to_1_47/y-net-mr7_mod.png">
+                        <div class="col-xs-1 excol3">
+                            <audio class="src4audio"
+                                   src="../estimated_demo/sEnTMgzw8ow_1_29_to_1_47/y-net-mr7_mod.mp3"
+                                   controls=""></audio>
+                        </div>
+                    </div>
+                    <div class="col-xs-1 excol3">
+                        <div style="padding-left: 80px">Y-Net-mr-V (Ours)</div>
+                        <img class="spec"
+                             src="../estimated_demo/sEnTMgzw8ow_1_29_to_1_47/vocalist_mod.png">
+                        <div class="col-xs-1 excol3">
+                            <audio class="src4audio"
+                                   src="../estimated_demo/sEnTMgzw8ow_1_29_to_1_47/vocalist_mod.mp3"
+                                   controls=""></audio>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<p class="lead mb-0" align="justify">
+    <h6>Observation:</h6>
+    Note that the voice estimated by Y-Net-mr estimate in the above example is distorted more than the estimate of our model
+    in the last second where the word "scar". The word "scar" is more intelligible in our estimate.
 </p>
 <p></p>
 <br></br>
@@ -167,7 +317,8 @@ layout: page
     <h6>Observation:</h6>
     Note that the sound clarity of the voice in our estimate (especially in the beginning) is clearly
     better than the Y-Net-mr estimate in the above example. Also, our model better suppresses the
-    interferences of backing vocals around the interval between 1s to 2s.
+    interferences of backing vocals around the interval between 1s to 2s (better seen
+    in the spectrograms around this time interval).
 </p>
 <p></p>
 <br></br>
