@@ -18,6 +18,7 @@
 
 .col-xs-1.excol3{
     margin-left:-9px;
+    width:max-content;
 }
 
 .center {
@@ -50,7 +51,8 @@
 }
 
 .src4_model{
-    padding-left: 55px;
+    text-align: center;
+    /*padding-left: 55px;*/
 }
 
 .estimlabel{
