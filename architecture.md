@@ -4,394 +4,96 @@ title: VocaLiST
 subtitle: An Audio-Visual Synchronisation Model for Lips and Voices
 ---
 
-[comment]: <> (<div class="lead mb-0" align="justify" style="padding-bottom: 1em">)
-
-[comment]: <> (The Y-Net model consist of a U-Net conditioned with visual features.  )
-
-[comment]: <> (</div>)
-
-[comment]: <> (![Y-Net]&#40;../img/model.png&#41;  )
-
-[comment]: <> (<div class="lead mb-0" align="justify" style="padding-bottom: 1em">)
-
-[comment]: <> (The system works with chunks of 4n seconds, where n ∈ N. The audio network takes as input a 256×16T n complex spectrogram and returns a complex mask.  The visual network in case of Y-Net-m and Y-Net-mr, is the video network &#40;in red&#41;, which takes as input a set of 100n frames cropped around the mouth of the target singer. In case of Y-Net-g and Y-Net-gr, the visual network is the graph network &#40;in green&#41; which takes as input a sequence of 68n landmarks of the face of the target singer. The visual features are fused with the audio network’s latent space through a FiLM layer &#40;we use T=16&#41;.  The FiLM broadcasts the 256×1×T visual features into the 256×16×T audio ones.  The spatial blocks of the U-Net downsample in both, the frequency and the temporal dimension, while the frequential block downsamples along the frequency dimension only.)
-
-[comment]: <> (<br><br>)
-
-[comment]: <> (Detailed layers are shown below. )
-
-[comment]: <> (</div>)
-
-[comment]: <> (<h3  style="padding-bottom: 10px"> U-Net structure </h3>)
-
-[comment]: <> (<table>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>Block #</td>)
-
-[comment]: <> (        <td>Type of block</td>)
-
-[comment]: <> (        <td>Output channels</td>)
-
-[comment]: <> (        <td>Kernel</td>)
-
-[comment]: <> (        <td>Padding</td>)
-
-[comment]: <> (        <td>Output shape</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <!--<tr>)
-
-[comment]: <> (        <td>-</td>)
-
-[comment]: <> (        <td>Input tensor</td>)
-
-[comment]: <> (        <td>2</td>)
-
-[comment]: <> (        <td>-</td>)
-
-[comment]: <> (        <td>-</td>)
-
-[comment]: <> (        <td>256 x 256</td>)
-
-[comment]: <> (    </tr>-->)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>1</td>)
-
-[comment]: <> (        <td>Spatial</td>)
-
-[comment]: <> (        <td>32</td>)
-
-[comment]: <> (        <td>5 x 5</td>)
-
-[comment]: <> (        <td>2</td>)
-
-[comment]: <> (        <td>128 x 128</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>2</td>)
-
-[comment]: <> (        <td>Spatial</td>)
-
-[comment]: <> (        <td>64</td>)
-
-[comment]: <> (        <td>5 x 5</td>)
-
-[comment]: <> (        <td>2</td>)
-
-[comment]: <> (        <td>64 x 64</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>3</td>)
-
-[comment]: <> (        <td>Spatial</td>)
-
-[comment]: <> (        <td>128</td>)
-
-[comment]: <> (        <td>5 x 5</td>)
-
-[comment]: <> (        <td>2</td>)
-
-[comment]: <> (        <td>32 x 32</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>4</td>)
-
-[comment]: <> (        <td>Spatial</td>)
-
-[comment]: <> (        <td>256</td>)
-
-[comment]: <> (        <td>5 x 5</td>)
-
-[comment]: <> (        <td>2</td>)
-
-[comment]: <> (        <td>16 x 16</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>5</td>)
-
-[comment]: <> (        <td>Frequential</td>)
-
-[comment]: <> (        <td>256</td>)
-
-[comment]: <> (        <td>5 x 5</td>)
-
-[comment]: <> (        <td>2</td>)
-
-[comment]: <> (        <td>8 x 16</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>6</td>)
-
-[comment]: <> (        <td>Frequential</td>)
-
-[comment]: <> (        <td>256</td>)
-
-[comment]: <> (        <td>5 x 5</td>)
-
-[comment]: <> (        <td>2</td>)
-
-[comment]: <> (        <td>4 x 16</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>-</td>)
-
-[comment]: <> (        <td>Bottleneck</td>)
-
-[comment]: <> (        <td>256</td>)
-
-[comment]: <> (        <td>3 x 3</td>)
-
-[comment]: <> (        <td>1</td>)
-
-[comment]: <> (        <td>8 x 16</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (</table>)
-
-[comment]: <> (<br>)
-
-[comment]: <> (<h3  style="padding-bottom: 10px"> Video Network structure </h3>)
-
-[comment]: <> (<table>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>Block #</td>)
-
-[comment]: <> (        <td>Type of block</td>)
-
-[comment]: <> (        <td>Output channels</td>)
-
-[comment]: <> (        <td>Kernel</td>)
-
-[comment]: <> (        <td>Padding</td>)
-
-[comment]: <> (        <td>Stride</td>)
-
-[comment]: <> (        <td>Output shape</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <!--<tr>)
-
-[comment]: <> (        <td>-</td>)
-
-[comment]: <> (        <td>Input tensor</td>)
-
-[comment]: <> (        <td>-</td>)
-
-[comment]: <> (        <td>-</td>)
-
-[comment]: <> (        <td>-</td>)
-
-[comment]: <> (        <td>-</td>)
-
-[comment]: <> (        <td>100 x 100</td>)
-
-[comment]: <> (    </tr>-->)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>0</td>)
-
-[comment]: <> (        <td>Basic Stem</td>)
-
-[comment]: <> (        <td>64</td>)
-
-[comment]: <> (        <td>3 x 7 x 7</td>)
-
-[comment]: <> (        <td>1 x 2 x 2</td>)
-
-[comment]: <> (        <td>1 x 3 x 3</td>)
-
-[comment]: <> (        <td>100 x 100</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>1</td>)
-
-[comment]: <> (        <td>Spatio-temporal</td>)
-
-[comment]: <> (        <td>64</td>)
-
-[comment]: <> (        <td>3 x 3 x 3</td>)
-
-[comment]: <> (        <td>1 x 1 x 1</td>)
-
-[comment]: <> (        <td>1 x 1 x 1</td>)
-
-[comment]: <> (        <td>100 x 100</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>2</td>)
-
-[comment]: <> (        <td>Spatial</td>)
-
-[comment]: <> (        <td>128</td>)
-
-[comment]: <> (        <td>3 x 3</td>)
-
-[comment]: <> (        <td>1 x 1</td>)
-
-[comment]: <> (        <td>2 x 2</td>)
-
-[comment]: <> (        <td>100 x 100</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>3</td>)
-
-[comment]: <> (        <td>Spatial</td>)
-
-[comment]: <> (        <td>256</td>)
-
-[comment]: <> (        <td>3 x 3</td>)
-
-[comment]: <> (        <td>1 x 1</td>)
-
-[comment]: <> (        <td>2 x 2</td>)
-
-[comment]: <> (        <td>100 x 100</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (</table>)
-
-[comment]: <> (<br>)
-
-[comment]: <> (<h3 style="padding-bottom: 10px">Graph Network structure </h3>)
-
-[comment]: <> (<table>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>Block #</td>)
-
-[comment]: <> (        <td>Output channels</td>)
-
-[comment]: <> (        <td>Output shape</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <!--<tr>)
-
-[comment]: <> (        <td>Input tensor</td>)
-
-[comment]: <> (        <td>2</td>)
-
-[comment]: <> (        <td>100 x 68</td>)
-
-[comment]: <> (    </tr>-->)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>1</td>)
-
-[comment]: <> (        <td>32</td>)
-
-[comment]: <> (        <td>100 x 68</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>2</td>)
-
-[comment]: <> (        <td>32</td>)
-
-[comment]: <> (        <td>100 x 68</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>3</td>)
-
-[comment]: <> (        <td>64</td>)
-
-[comment]: <> (        <td>50 x 68</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>4</td>)
-
-[comment]: <> (        <td>64</td>)
-
-[comment]: <> (        <td>50 x 68</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>5</td>)
-
-[comment]: <> (        <td>128</td>)
-
-[comment]: <> (        <td>25 x 68</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>6</td>)
-
-[comment]: <> (        <td>128</td>)
-
-[comment]: <> (        <td>25 x 68</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>7</td>)
-
-[comment]: <> (        <td>256</td>)
-
-[comment]: <> (        <td>13 x 68</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (    <tr>)
-
-[comment]: <> (        <td>8</td>)
-
-[comment]: <> (        <td>256</td>)
-
-[comment]: <> (        <td>13 x 68</td>)
-
-[comment]: <> (    </tr>)
-
-[comment]: <> (</table>)
+<div class="lead mb-0" align="justify" style="padding-bottom: 1em">
+    VocaLiST (acronym for <strong>Voca</strong>l <strong>Li</strong>p <strong>S</strong>ynchronisation <strong>T</strong>ransformer),
+    is a novel audio-visual transformer-based lip-voice synchronisation model 
+    that estimates the extent of synchronisation between the lips motion 
+    and the voice in a given voice video. Fig. 1 shows the high-level 
+    architecture of the entire model along with the zoomed in view of the transformer.
+    Fig. 2 shows the details of the audio encoder and the visual encoder.
+</div>
+<br>
+<div style="display: flex">
+    <div class="col-md-6" style="text-align: center">
+        <img src="../img/all_arch.png" style="height: 75%;max-width:105%"/>
+        <span>Fig 1. Architecture of our lip synchronisation model.</span>
+    </div>
+    <div class="col-md-6" style="text-align: center;">
+        <img src="../img/audio_visual_encoder.png" style="height: 75%; width: 96%;"/>
+        <span>Fig 2. Our audio encoder (left) and visual encoder (right).</span>
+    </div>
+</div>
+
+<h4 style="margin-top:-4em;">Audio Encoder</h4>
+<div class="lead mb-0" align="justify" style="padding-bottom: 1em">
+Our audio encoder is very similar to the audio encoder used in
+the lip-sync expert discriminator [1]. The architecture details
+are shown in Fig. 2 (left). The audio encoder is a stack of 2D 
+convolutional layers with residual skip-connections that operate on
+the mel-spectrogram input of dimensions 1 × 80 × t<sub>a</sub> . The
+mel-spectrograms are obtained using 80 mel-filterbanks with a
+hop size of 200 and window size of 800. The audios have a
+16kHz sampling rate. The audio features are of the dimension
+512 × t<sub>a</sub>. The audio encoder conserves the temporal 
+resolution of the input.</div>
+<br>
+<h4>Visual Encoder</h4>
+<div class="lead mb-0" align="justify" style="padding-bottom: 1em">
+The visual encoder ingests a sequence of RGB images cropped
+around the mouth having dimensions 3×48×96×t<sub>v</sub>. Its 
+architecture is inspired by the visual encoder of the lip-sync expert
+discriminator. Unlike in the latter, we apply 3D convolutions
+and conserve the temporal resolution in the feature maps. The
+output visual features are of dimension 512 × t<sub>v</sub> . The conservation
+of temporal resolution in both the audio and visual features
+is helpful for learning the synchronisation patterns between the
+two modalities spread across the temporal dimension when we
+feed them into the synchronisation module. The visual frames
+are sampled from videos of 25 fps.</div>
+<br>
+<h4>Synchronisation Block</h4>
+<div class="lead mb-0" align="justify" style="padding-bottom: 1em">
+<p>We design a powerful cross-modal audio-visual transformer that
+can use the audio-visual representations learned in its cross-modal 
+attention modules to deduce the inherent audio-visual
+correspondence in a synchronised voice and lips motion pair.
+We refer to our transformer model as VocaLiST, the Vocal Lip
+Sync Transformer. Its design is inspired by the cross-modal
+transformer from [2]. The cross-modal attention blocks track
+correlations between signals across modalities.</p>
+
+<p>The synchronisation block contains three cross-modal
+transformer encoders, each made up of 4 layers, 8 attention
+heads and the hidden unit dimension of 512. The A→V unit
+takes in audio features as the query and the visual features as the
+key and values. The roles of these audio and visual features is
+swapped in the V→A unit. The output of the A→V unit forms
+the query to the hybrid fusion transformer unit, while its key
+and values are sourced from the output of the V→A unit. We
+max-pool the output of this hybrid fusion unit along the temporal
+dimension and pass it through tanh activation. Fig. 1 shows
+the architecture of VocaLiST.</p>
+
+<p>Finally, there is a fully-connected layer acting as a classifier
+which outputs a score indicating if the voice and lips motion are
+synchronised or not. The whole architecture can handle any
+length of audio and visual inputs.</p></div>
+
+<br>
+<div class="row">
+    <h3 class="col-sm-4" style="display: inline-block">References</h3>
+</div>
+
+<p class="lead mb-0" align="justify">
+
+    [1] K. Prajwal, R. Mukhopadhyay, V. P. Namboodiri, and C. Jawahar,
+    “A lip sync expert is all you need for speech to lip generation in the
+    wild,” in Proceedings of the 28th ACM International Conference  
+    on Multimedia, 2020, pp. 484–492.
+    <br>
+    [2] Y.-H. H. Tsai, S. Bai, P. P. Liang, J. Z. Kolter, L.-P. Morency, and
+    R. Salakhutdinov, “Multimodal transformer for unaligned multimodal 
+    language sequences,” in Proceedings of the conference.
+    Association for Computational Linguistics. Meeting, vol. 2019.
+    NIH Public Access, 2019, p. 6558.
+</p>
